@@ -2,7 +2,7 @@ import { blo } from "blo";
 import { useState } from "react";
 
 export default function App() {
-  const [size, setSize] = useState(128);
+  const [size, setSize] = useState(400);
   const [address, setAddress] = useState(
     "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
   );
