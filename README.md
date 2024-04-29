@@ -1,15 +1,16 @@
 <div align="center">
-<img width="860" alt="blo" src="https://github.com/bpierre/blo/assets/36158/7ddc0bf0-076d-4c5a-8624-cc8646e4c5aa">
-  <br><strong>blo</strong> is a small and fast library to generate Ethereum identicons.
+<img width="607" alt="Loogie blo" src="https://github.com/damianmarti/loogie-blo/assets/466652/2a20bb9b-c468-4fa0-a352-663f0b2f5ed6">
+  <br><strong>loogie-blo</strong> is a small and fast library to generate Ethereum Loogies identicons.
+  <br>It is a fork of the original Blo library by <a href="https://github.com/bpierre/blo" target="_blank">bpierre</a>.
   <br><br>
 </div>
 
-<p align=center><a href="https://www.npmjs.com/package/blo"><img src="https://badgen.net/npm/v/blo" alt="npm version"></a> <a href="https://bundlejs.com/?q=blo"><img src="https://deno.bundlejs.com/badge?q=blo" alt="bundle size"></a> <a href="https://github.com/bpierre/blo/blob/main/LICENSE"><img src="https://badgen.net/github/license/bpierre/blo" alt="License"></a></p>
+<p align=center><a href="https://www.npmjs.com/package/loogie-blo"><img src="https://badgen.net/npm/v/loogie-blo" alt="npm version"></a> <a href="https://bundlejs.com/?q=loogie-blo"><img src="https://deno.bundlejs.com/badge?q=loogie-blo" alt="bundle size"></a> <a href="https://github.com/damianmarti/loogie-blo/loogie-blob/main/LICENSE"><img src="https://badgen.net/github/license/damianmarti/loogie-blo" alt="License"></a></p>
 
 ## Features
 
-- 🐥 **Small**: **[0.67 KB](https://bundlejs.com/?bundle&q=blo)** gzipped.
-- 💥 **Fast**: **[3.5x faster](#library-comparison)** than the second fastest solution.
+- 🐥 **Small**: **[0.75 KB](https://bundlejs.com/?bundle&q=loogie-blo)** gzipped.
+- 💥 **Fast**: **[3.5x faster](#library-comparison)** than the second fastest solution (performance from original blo).
 - 🔍 **Optimized**: Leverages SVG to generate compact and sharp images at any size.
 - 💆 **Simple**: Focuses on Ethereum identicons only, allowing for a simpler API.
 - 🗂 **Typed**: Ships with [types included](#types).
@@ -34,27 +35,27 @@
 ## Getting Started
 
 ```sh
-npm i -S blo
-pnpm add blo
-yarn add blo
+npm i -S loogie-blo
+pnpm add loogie-blo
+yarn add loogie-blo
 ```
 
 ```ts
-import { blo } from "blo";
+import { loogieBlo } from "loogie-blo";
 
-img.src = blo("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045");
+img.src = loogieBlo("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045");
 ```
 
 ### React / Vue / Others
 
-blo is fast enough to not require memoization or async rendering for common use cases.
+loogie-blo is fast enough to not require memoization or async rendering for common use cases.
 
 ```tsx
 function AddressIcon({ address }: { address: `0x${string}` }) {
   return (
     <img
       alt={address}
-      src={blo(address)}
+      src={loogieBlo(address)}
     />
   );
 }
@@ -63,7 +64,7 @@ function AddressIcon({ address }: { address: `0x${string}` }) {
 ## API
 
 <details>
-<summary><b><code>blo(address: Address, size = 64): string</code></b></summary>
+<summary><b><code>loogieBlo(address: Address, size = 64): string</code></b></summary>
 <br>
 
 Get a data URI string representing the identicon as an SVG image.
@@ -73,29 +74,19 @@ The `size` paramater shouldn’t usually be needed, as the image will stay sharp
 Example:
 
 ```ts
-import { blo } from "blo";
+import { loogieBlo } from "loogie-blo";
 
-img.src = blo(address); // size inside the SVG defaults to 64px
-img2.src = blo(address, 24); // set it to 24px
+img.src = loogieBlo(address); // size inside the SVG defaults to 400px
+img2.src = loogieBlo(address, 24); // set it to 24px
 ```
 
 </details>
 
 <details>
-<summary><b><code>bloSvg(address: Address, size = 64): string</code></b></summary>
+<summary><b><code>loogieBloSvg(address: Address, size = 64): string</code></b></summary>
 <br>
 
 Same as above except it returns the SVG code instead of a data URI string.
-
-</details>
-
-<details>
-<summary><b><code>bloImage(address: Address): BloImage</code></b></summary>
-<br>
-
-Get a `BloImage` data structure that can be used to render the image in different formats.
-
-See [`src/svg.ts`](./src/svg.ts) for an example of how to use it.
 
 </details>
 
@@ -104,26 +95,6 @@ See [`src/svg.ts`](./src/svg.ts) for an example of how to use it.
 The library ships with TypeScript types included.
 
 ```ts
-// BloImage contains the data needed to render an icon.
-export type BloImage = [BloImageData, Palette];
-
-// 4x8 grid of the image left side, as 32 PaletteIndex items.
-// The right side is omitted as it's a mirror of the left side.
-export type BloImageData = Uint8Array;
-
-// Colors used by a given icon.
-export type Palette = [
-  Hsl, // background
-  Hsl, // color
-  Hsl, // spot
-];
-
-// Points to one of the three Palette colors.
-export type PaletteIndex =
-  | 0 // background
-  | 1 // color
-  | 2; // spot
-
 // A color in the HSL color space.
 // [0]: 0-360 (hue)
 // [1]: 0-100 (saturation)
@@ -149,12 +120,6 @@ Yes.
 ### Does it work with ENS names?
 
 No it only works with Ethereum addresses, but you can resolve the ENS name to an address (e.g. with [wagmi](https://wagmi.sh/core/actions/fetchEnsAddress)) and pass the result to blo.
-
-### Can blo render other formats than SVG?
-
-You can render to any format you want by using the `bloImage()` function, which returns a data structure (see [API](#api) above). Check out the [Bun](./demos/bun) and [Node](./demos/node) demos for examples of rendering an identicon in the terminal.
-
-<img width="400" src="https://github.com/bpierre/blo/assets/36158/a7c86d01-f003-49d7-8f9e-93097b502872" alt="Ethereum identicon rendered in the terminal">
 
 ### Can it be used to generate other types of identicons?
 
