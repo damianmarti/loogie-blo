@@ -1,6 +1,6 @@
 {
   "name": "loogie-blo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "author": "Damian Martinelli <damianmarti@gmail.com>",
   "description": "loogie-blo is a small and fast library to generate Ethereum Loogies identicons. It is a fork of the original Blo library by bpierre.",
